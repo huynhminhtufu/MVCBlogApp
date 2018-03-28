@@ -1,0 +1,108 @@
+﻿@model BlogApp.Models.Tbl_Blog
+
+@{
+    ViewBag.Title = "Edit Blog";
+}
+
+@{
+    //Only Admin Access
+    if (Session["UserID"] == null)
+    {
+        Response.Redirect("/Blog/NotFound");
+    }
+}
+
+<h2>Edit Blog</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BlogID)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Title</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BlogTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BlogTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Content</label>
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.BlogContent, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.1/classic/ckeditor.js"></script>
+                <textarea name="BlogContent" id="BlogContent"> @Html.DisplayFor(model => model.BlogContent) </textarea>
+                <script type="text/javascript">
+                  ClassicEditor
+                    .create( document.querySelector( '#BlogContent' ) )
+                    .then( editor => {
+                        console.log( editor );
+                    } )
+                    .catch( error => {
+                        console.error( error );
+                    } );
+                </script>
+                @Html.ValidationMessageFor(model => model.BlogContent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Category</label>
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Author</label>
+            <div class="col-md-10">
+                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*<label class="control-label col-md-2">Created Date</label>*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedDate, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                @Html.ValidationMessageFor(model => model.CreatedDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*<label class="control-label col-md-2">Rate Point</label>*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RatingPoint, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                @Html.ValidationMessageFor(model => model.RatingPoint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*<label class="control-label col-md-2">Rate Count</label>*@
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumOfRating, new { htmlAttributes = new { @class = "form-control", type = "hidden" } })
+                @Html.ValidationMessageFor(model => model.NumOfRating, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="width: 100%;">
+                <span style="float: left;"><a href="/Blog/Index"><button type="button" class="btn btn-default">Back to list</button></a></span>
+                <span style="float: right;"><input type="submit" value="Save" class="btn btn-primary" /></span>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

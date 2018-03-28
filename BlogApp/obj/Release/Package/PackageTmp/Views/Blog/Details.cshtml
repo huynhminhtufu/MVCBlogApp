@@ -1,0 +1,45 @@
+﻿@model BlogApp.Models.Tbl_Blog
+
+@{
+    ViewBag.Title = Model.BlogTitle;
+}
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+<div></div>
+<h2>@Html.DisplayFor(model => model.BlogTitle)</h2>
+<div class="author-info">by <b><font face="Monotype Corsiva">@Html.DisplayFor(model => model.Tbl_User.Username)</b></font> in <a href="/Blog/Cate/@Html.DisplayFor(model => model.Tbl_Category.CategoryID)"><button class="category-tag">#@Html.DisplayFor(model => model.Tbl_Category.CategoryName)</button></a><span class="datetime-info">posted at <b>@BlogApp.Utility.DateFormat.FormatDateTime(Html.DisplayFor(model => model.CreatedDate).ToString())</b></span></div>
+@{
+    <div class="rate-area">Rated <button class="rating-tag">@BlogApp.Utility.RateCalc.RatingCalc(Model.RatingPoint, Model.NumOfRating)☆</button> in @Html.DisplayFor(model => model.NumOfRating) rates</div>
+}
+<hr />
+@Html.Raw(Model.BlogContent)
+
+<div align="right">
+    <form action="/Blog/Rate">
+        <table>
+            <td>
+                <input class="btn btn-danger" name="submit" value="Rate!" type="submit" />
+            </td>
+            <td valign="bottom">
+                <div class="stars">
+                    <input type="hidden" name="id" value="@Html.DisplayFor(model => model.BlogID)" />
+                    <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
+                    <label class="star star-5" for="star-5"></label>
+                    <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
+                    <label class="star star-4" for="star-4"></label>
+                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                    <label class="star star-3" for="star-3"></label>
+                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
+                    <label class="star star-2" for="star-2"></label>
+                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" />
+                    <label class="star star-1" for="star-1"></label>
+                </div>
+            </td>
+        </table>
+    </form>
+</div>
+
+<hr />
+<div class="fb-comments" data-href="http://localhost:56392/Blog/Details/@Html.DisplayFor(model => model.BlogID)" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+

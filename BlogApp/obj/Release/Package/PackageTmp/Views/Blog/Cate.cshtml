@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BlogApp.Models.Tbl_Blog>
+
+@{
+    foreach (var item in ViewBag.CateInfo)
+    {
+        ViewBag.Title = item.CategoryName;
+        <h2><button class="category-tag">#@item.CategoryName</button></h2>
+        <div>@item.CategoryDescription</div>
+    }
+}
+
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        @{
+            if (Model.ToList().Count == 0)
+            {
+                <hr/>
+                <div class="post-preview">
+                    <h2>This category still has no post.</h2>
+                </div>
+                <hr/>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <div class="post-preview">
+                        <a href="/Blog/Details/@Html.DisplayFor(modelItem => item.BlogID)">
+                            <h2 class="post-title">
+                                @Html.DisplayFor(modelItem => item.BlogTitle)
+                            </h2>
+                            @*<h3 class="post-subtitle">
+                                    @Html.Raw(BlogApp.Utility.HomeIndexFormat.Format(item.BlogContent, 50))
+                                </h3>*@
+                        </a>
+                        <p class="post-meta" align="right">
+                            Posted by
+                            <a href="#">@Html.DisplayFor(modelItem => item.Tbl_User.Username)</a>
+                            on @BlogApp.Utility.DateFormat.FormatDateTime(Html.DisplayFor(modelItem => item.CreatedDate).ToString())
+                        </p>
+                    </div>
+                    <hr>
+                }
+            }
+        }
+        <!-- Pager -->
+        <div class="clearfix">
+            <a class="btn btn-primary float-right" href="/Home/Index">Return Blog Home &rarr;</a>
+        </div>
+    </div>
+</div>

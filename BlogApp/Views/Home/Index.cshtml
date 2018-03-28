@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BlogApp.Models.Tbl_Blog>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@{
+    int i = 0;
+    foreach (var item in Model)
+    {
+        i++;
+        if (i == 1)
+        {
+            <div class="jumbotron">
+                <a href="/Blog/Details/@item.BlogID"><h1>@Html.DisplayFor(modelItem => item.BlogTitle)</h1></a>
+                <p class="lead">
+                    @Html.Raw(BlogApp.Utility.HomeIndexFormat.Format(item.BlogContent, 400))
+                </p>
+                <p><a href="/Blog/Details/@item.BlogID" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+            </div>
+        }
+        if (i == 2)
+        {
+            @:<div class="row">
+       }
+        if (i != 1)
+        {
+            <div class="col-md-4">
+                <a href="/Blog/Details/@item.BlogID"><h2>@Html.DisplayFor(modelItem => item.BlogTitle)</h2></a>
+                <p>
+                    @Html.Raw(BlogApp.Utility.HomeIndexFormat.Format(item.BlogContent, 200))
+                </p>
+                <p><a class="btn btn-secondary" href="/Blog/Details/@item.BlogID">Learn more &raquo;</a></p>
+            </div>
+        }
+        if (i == 4)
+        {
+            @:</div>
+       }
+    }
+}

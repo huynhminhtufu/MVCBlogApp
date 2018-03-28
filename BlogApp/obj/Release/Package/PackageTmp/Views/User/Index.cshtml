@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BlogApp.Models.Tbl_User>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+@{
+    //Only Super Admin Access
+    if (int.Parse(Session["UserID"].ToString()) != 1)
+    {
+        Response.Redirect("/Blog/NotFound");
+    }
+}
+
+<h2>Users Management</h2>
+
+<p>
+    <a href="/User/Create"><button class="btn btn-primary">Create new account</button></a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @{ 
+                if (int.Parse(item.Type.ToString()) == 0)
+                {
+                    <div>Manage</div>
+                }
+                else
+                {
+                    <div>Editor</div>
+                }
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserID })
+        </td>
+    </tr>
+}
+
+</table>

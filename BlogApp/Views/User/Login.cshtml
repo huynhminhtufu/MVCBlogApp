@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BlogApp.Models.Tbl_User>
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@{
+    //Only Guest Access
+    if (Session["UserID"] != null)
+    {
+        Response.Redirect("/Blog/Index");
+    }
+}
+
+<style>
+    td {
+        padding: 5px 10px 5px 10px;
+    }
+
+    h3 {
+        padding: 10px;
+        background-color: gray;
+        color: white;
+    }
+
+    #login-box {
+        margin: 0px auto;
+        float: none;
+        display: table;
+    }
+
+    #login-fail {
+        padding: 5px;
+        width: auto;
+        color: white;
+        background-color: red;
+        font-weight: bold;
+    }
+
+
+    input[type=submit] {
+        background-color: #555555;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+</style>
+<div id="login-box">
+    <h3>Administrator Login Page</h3>
+    <form action="/User/Login" method="post">
+        @{
+            if (ViewBag.Status == 0)
+            {
+                <div id="login-fail">Username or password is incorrect!</div>
+            }
+        }
+        <table>
+            <tr><td>Username</td><td><input type="text" name="username" value="@ViewBag.Username" required="required" oninvalid="this.setCustomValidity('Username is required!')"/></td></tr>
+            <tr><td>Password</td><td><input type="password" name="password" required="required" oninvalid="this.setCustomValidity('Password is required!')"/></td></tr>
+            <tr><td></td><td><input type="submit" name="submit" value="Login" /></td></tr>
+
+        </table>
+    </form>
+</div>

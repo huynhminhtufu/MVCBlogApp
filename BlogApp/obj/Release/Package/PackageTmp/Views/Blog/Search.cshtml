@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Search for " + ViewBag.SearchKeyword;
+}
+
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        @{
+            if (ViewBag.SearchResult.Count == 0)
+            {
+                <h2>Not Found with "<font color="red">@ViewBag.SearchKeyword</font>"</h2>
+                <div>Please try again with another keyword.</div>
+                <hr/>
+            }
+            else
+            {
+                <h2>These posts are results for "<font color="red">@ViewBag.SearchKeyword</font>":</h2>
+                <hr/>
+                foreach (var item in ViewBag.SearchResult)
+                {
+                    <div class="post-preview">
+                        <a href="/Blog/Details/@item.BlogID">
+                            <h4>@item.BlogTitle</h4>
+                            <div>by <b>@item.Tbl_User.Username</b> in @BlogApp.Utility.DateFormat.FormatDateTime(@item.CreatedDate.ToString())</div>
+                        </a>
+                    </div>
+                    <hr/>
+                }
+            }
+        }
+        <!-- Pager -->
+        <div class="clearfix">
+            <a class="btn btn-primary float-right" href="/Home/Index">Return Blog Home &rarr;</a>
+        </div>
+    </div>
+</div>
